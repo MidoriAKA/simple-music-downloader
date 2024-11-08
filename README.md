@@ -1,39 +1,32 @@
-# electron-quick-start
+# Simple YouTube music downloader
 
-**Clone and run for a quick way to see Electron in action.**
+Just a simple downloader to download music from Youtube or Youtube Music links.
 
-This is a minimal Electron application based on the [Quick Start Guide](https://electronjs.org/docs/latest/tutorial/quick-start) within the Electron documentation.
+It was created in 3 hours because I needed to get the music in a hurry for a night DJ session.
+Therefore, there may be inefficient codes and some rough edges.
 
-A basic Electron application needs just these files:
+## Getting Started
 
-- `package.json` - Points to the app's main file and lists its details and dependencies.
-- `main.js` - Starts the app and creates a browser window to render HTML. This is the app's **main process**.
-- `index.html` - A web page to render. This is the app's **renderer process**.
-- `preload.js` - A content script that runs before the renderer process loads.
+To get a local copy up and running follow these simple steps
 
-You can learn more about each of these components in depth within the [Tutorial](https://electronjs.org/docs/latest/tutorial/tutorial-prerequisites).
+### Prerequisites
 
-## To Use
+- [Node.js]()
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
-To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+### Installation
+
+Clone this repository and then execute the following commands in the terminal
 
 ```bash
-# Clone this repository
-git clone https://github.com/electron/electron-quick-start
-# Go into the repository
-cd electron-quick-start
-# Install dependencies
-npm install
-# Run the app
-npm start
+npm i
 ```
 
-Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+### Run
 
-## Resources for Learning Electron
-
-- [electronjs.org/docs](https://electronjs.org/docs) - all of Electron's documentation
-- [Electron Fiddle](https://electronjs.org/fiddle) - Electron Fiddle, an app to test small Electron experiments
+```bash
+npm start
+```
 
 ## License
 
