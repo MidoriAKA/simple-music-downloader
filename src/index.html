@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Downloader</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <h1>Download Video</h1>
+
+  <form id="download-form">
+    <label for="url-input">Video URL</label>
+    <input type="text" id="url-input" placeholder="https://youtu.be, https://music.youtube.com" required>
+
+    <label for="is-playlist">
+      <input type="checkbox" id="is-playlist"> Is Playlist
+    </label>
+
+    <label for="directory-input">Save Directory</label>
+    <button type="button" id="select-directory-button">Select Directory</button>
+    <input type="text" id="directory-input" readonly>
+
+    <button type="submit">Download</button>
+  </form>
+
+  <h2>Add Cover to all MP3 under directory</h2>
+
+  <form id="add-cover-form">
+
+    <button type="button" id="select-directory-button-cover">Select Directory</button>
+    <input type="text" id="directory-input-cover" readonly required>
+
+    <button type="submit">Add Cover</button>
+  </form>
+
+
+  <script src="renderer.js"></script>
+</body>
+</html>
