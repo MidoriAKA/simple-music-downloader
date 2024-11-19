@@ -44,8 +44,75 @@ button {
   border-radius: 5px;
   cursor: pointer;
   width: 200px;
+  transition: all 0.3s;
 }
 
 button:hover {
   background-color: #45a049;
+}
+
+button:disabled {
+  background-color: #ccc;
+  color: #333;
+  cursor: not-allowed;
+}
+
+.button-downloading {
+  color: #333;
+  background-color: #ccc;
+  border: 2px solid #ccc;
+  animation: loading 2s linear infinite;
+}
+
+.button-downloading::after {
+  content: "Downloading";
+  animation: button-downloading 2s ease infinite;
+}
+
+@keyframes button-downloading {
+  0% {
+    content: "Downloading";
+  }
+  33% {
+    content: "Downloading.";
+  }
+  66% {
+    content: "Downloading..";
+  }
+  100% {
+    content: "Downloading...";
+  }
+}
+
+@keyframes loading {
+  0% {
+    border-top-color: #4CAF50;
+    border-right-color: #ccc;
+    border-bottom-color: #ccc;
+    border-left-color: #ccc;
+  }
+  25% {
+    border-top-color: #ccc;
+    border-right-color: #4CAF50;
+    border-bottom-color: #ccc;
+    border-left-color: #ccc;
+  }
+  50% {
+    border-top-color: #ccc;
+    border-right-color: #ccc;
+    border-bottom-color: #4CAF50;
+    border-left-color: #ccc;
+  }
+  75% {
+    border-top-color: #ccc;
+    border-right-color: #ccc;
+    border-bottom-color: #ccc;
+    border-left-color: #4CAF50;
+  }
+  100% {
+    border-top-color: #4CAF50;
+    border-right-color: #ccc;
+    border-bottom-color: #ccc;
+    border-left-color: #ccc;
+  }
 }

@@ -1,13 +1,13 @@
-import { app, BrowserWindow, ipcMain, dialog } from 'electron';
-import { exec } from 'child_process';
-import path from 'path';
-import albumArt from 'album-art';
-import fs from 'fs';
-import NodeID3 from 'node-id3';
-import fetch from 'node-fetch';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import toast from 'electron-simple-toast';
+import { app, BrowserWindow, ipcMain, dialog, clipboard } from "electron";
+import { exec } from "child_process";
+import path from "path";
+import albumArt from "album-art";
+import fs from "fs";
+import NodeID3 from "node-id3";
+import fetch from "node-fetch";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import toast from "electron-simple-toast";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,33 +17,39 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'src/preload.js'),
+      preload: path.join(__dirname, "src/preload.js"),
       contextIsolation: true,
       enableRemoteModule: false,
     },
   });
 
-  win.loadFile('./src/index.html');
+  win.loadFile("./src/index.html");
 }
 
 app.whenReady().then(createWindow);
 
-ipcMain.handle('download-video', async (event, { url, isPlaylist, outputPath }) => {
-  const _isPlaylist = isPlaylist ? 'yes-playlist' : ''; 
+ipcMain.handle("paste-from-clipboard", async () => {
+  return clipboard.readText();
+});
+
+ipcMain.handle("download-video", async (event, { url, outputPath }) => {
+  const isPlaylist = url.includes("playlist");
+  console.log("isPlaylist:", isPlaylist);
+  const _isPlaylist = isPlaylist ? "yes-playlist" : ""; 
   const downloadCommand = [
-    ['yt-dlp'],
-    ['--verbose'],
+    ["yt-dlp"],
+    ["--verbose"],
     [_isPlaylist],
     [`--output "${outputPath}/%(artist)s - %(title)s.%(ext)s"`],
-    ['--windows-filenames'],
-    ['--abort-on-unavailable-fragment'],
-    ['--buffer-size 1M'],
-    ['--extract-audio'],
-    ['--audio-format mp3'],
-    ['--audio-quality 320K'],
-    ['--embed-metadata'],
+    ["--windows-filenames"],
+    ["--abort-on-unavailable-fragment"],
+    ["--buffer-size 1M"],
+    ["--extract-audio"],
+    ["--audio-format mp3"],
+    ["--audio-quality 320K"],
+    ["--embed-metadata"],
     [`"${url}"`]
-  ].join(' ');
+  ].join(" ");
 
   return new Promise((resolve, reject) => {
     exec(downloadCommand, (error, stdout, stderr) => {
@@ -58,12 +64,12 @@ ipcMain.handle('download-video', async (event, { url, isPlaylist, outputPath }) 
   });
 });
 
-ipcMain.handle('add-cover-to-mp3-directory', async (event, directoryPath) => {
+ipcMain.handle("add-cover-to-mp3-directory", async (event, directoryPath) => {
   console.log(directoryPath);
   const mp3Files = [];
 
   fs.readdirSync(directoryPath).forEach(file => {
-    if (path.extname(file) === '.mp3') {
+    if (path.extname(file) === ".mp3") {
       mp3Files.push(path.join(directoryPath, file));
     }
   });
@@ -82,13 +88,13 @@ const setCover = async (directoryPath) => {
       }
   
       const albumName = tags.album ? tags.album : tags.title;
-      const fileName = path.basename(directoryPath, '.mp3');
+      const fileName = path.basename(directoryPath, ".mp3");
       console.log("fileName:", fileName);
-      const [artist, title] = fileName.split(' - ');
+      const [artist, title] = fileName.split(" - ");
       
 
       try {
-        const coverUrl = await albumArt(artist, { album: albumName, size: 'large' });
+        const coverUrl = await albumArt(artist, { album: albumName, size: "large" });
         const coverData = await fetchImage(coverUrl);
 
         NodeID3.update({ image: coverData }, directoryPath, (tagError) => {
@@ -103,7 +109,7 @@ const setCover = async (directoryPath) => {
       }
     });
   } catch (error) {
-    console.error('Error in MP3 metadata processing:', error);
+    console.error("Error in MP3 metadata processing:", error);
   }
 };
 
@@ -118,9 +124,9 @@ async function fetchImage(url) {
   return Buffer.from(buffer);
 }
 
-ipcMain.handle('select-directory', async () => {
+ipcMain.handle("select-directory", async () => {
   const result = await dialog.showOpenDialog({
-    properties: ['openDirectory']
+    properties: ["openDirectory"]
   });
   if (result.canceled) {
     return null;
@@ -130,7 +136,7 @@ ipcMain.handle('select-directory', async () => {
   const mp3Files = [];
 
   fs.readdirSync(directoryPath).forEach(file => {
-    if (path.extname(file) === '.mp3') {
+    if (path.extname(file) === ".mp3") {
       mp3Files.push(path.join(directoryPath, file));
     }
   });
@@ -143,7 +149,6 @@ ipcMain.handle('select-directory', async () => {
   return returnResult;
 });
 
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") app.quit();
 });
