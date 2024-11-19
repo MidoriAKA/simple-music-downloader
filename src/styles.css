@@ -49,3 +49,25 @@ button {
 button:hover {
   background-color: #45a049;
 }
+
+#logs-container {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  height: 100%;
+  max-height: max-content;
+  width: 100%;
+}
+#foreground {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  white-space: pre-wrap;
+  flex-direction: column;
+  max-height: 450px;
+  overflow-y: scroll;
+  overflow-wrap: break-word;
+  margin: 20px;
+}
+#logs {
+  border: 1px solid #333;
+}

@@ -4,6 +4,8 @@ document.getElementById('download-form').addEventListener('submit', async (event
   const url = document.getElementById('url-input').value;
   const outputPath = document.getElementById('directory-input').value;
   const isPlaylist = document.getElementById('is-playlist').checked;
+  const logContainer = document.getElementById('logs-container');
+  const logs = document.getElementById('logs');
 
   if (!outputPath) {
     alert("Please select a save directory.");
@@ -16,6 +18,8 @@ document.getElementById('download-form').addEventListener('submit', async (event
   } catch (error) {
     alert(error);
   }
+  logContainer.style.display = 'none';
+  logs.innerText = '';
 });
 
 document.getElementById('select-directory-button').addEventListener('click', async () => {
@@ -47,3 +51,12 @@ document.getElementById('add-cover-form').addEventListener('submit', async (even
 });
 
 
+window.electronAPI.onReceiveLog((data) => {
+  const logContainer = document.getElementById('logs-container');
+  const foreground = document.getElementById('foreground');
+  logContainer.style.display = 'block';
+  const logs = document.getElementById('logs');
+  const newLog = data + '\n';
+  logs.appendChild(document.createTextNode(newLog));
+  foreground.scrollTop = foreground.scrollHeight;
+});

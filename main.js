@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
-import { exec } from 'child_process';
+import { exec, spawn } from 'child_process';
 import path from 'path';
 import albumArt from 'album-art';
 import fs from 'fs';
@@ -12,7 +12,7 @@ import toast from 'electron-simple-toast';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-function createWindow() {
+const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
@@ -29,10 +29,13 @@ function createWindow() {
 app.whenReady().then(createWindow);
 
 ipcMain.handle('download-video', async (event, { url, isPlaylist, outputPath }) => {
+  const ytDlpPath = path.join(__dirname, "bin", 'yt-dlp.exe');
+  console.log(ytDlpPath);
   const _isPlaylist = isPlaylist ? 'yes-playlist' : ''; 
   const downloadCommand = [
-    ['yt-dlp'],
+    [`"${ytDlpPath}"`],
     ['--verbose'],
+    ['--progress'],
     [_isPlaylist],
     [`--output "${outputPath}/%(artist)s - %(title)s.%(ext)s"`],
     ['--windows-filenames'],
@@ -46,13 +49,25 @@ ipcMain.handle('download-video', async (event, { url, isPlaylist, outputPath }) 
   ].join(' ');
 
   return new Promise((resolve, reject) => {
-    exec(downloadCommand, (error, stdout, stderr) => {
-      if (error) {
-        toast.error("Oops!", "Download failed :(", 3000);
-        reject(`Download failed: ${stderr}`);
+    const process = spawn(downloadCommand, {
+      shell: true,
+      cwd: `${__dirname}`
+    });
+    process.stdout.on('data', (data) => {
+      event.sender.send('receive-log', data.toString());
+      console.log("\x1b[36m%s\x1b[0m", `stdout: ${data}`);
+    });
+    process.stderr.on('data', (data) => {
+      event.sender.send('receive-log', data.toString());
+      console.error(`stderr: ${data}`);
+    });
+    process.on('close', (code) => {
+      console.log(`child process exited with code ${code}`);
+      if (code === 0) {
+        toast.success("Success!", "Download completed successfully :)", 3000);
+        resolve("Download completed successfully :)");
       } else {
-        toast.success("Success!", "Download completed :)", 3000);
-        resolve(`Download completed: ${stdout}`);
+        reject("Download failed :(");
       }
     });
   });
