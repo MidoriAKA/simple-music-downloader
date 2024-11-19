@@ -3,28 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Downloader</title>
+  <title>Video Downloader as mp3</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <h1>Download Video</h1>
+  <h1>Download Video as mp3</h1>
 
   <form id="download-form">
-    <label for="url-input">Video URL</label>
+    <label for="url-input">YouTube URL</label>
+    <button type="button" id="paste-url-button">Paste URL</button>
     <input type="text" id="url-input" placeholder="https://youtu.be, https://music.youtube.com" required>
-
-    <label for="is-playlist">
-      <input type="checkbox" id="is-playlist"> Is Playlist
-    </label>
 
     <label for="directory-input">Save Directory</label>
     <button type="button" id="select-directory-button">Select Directory</button>
     <input type="text" id="directory-input" readonly>
 
-    <button type="submit">Download</button>
+    <button id="download-btn" type="submit">Download</button>
   </form>
 
-  <h2>Add Cover to all MP3 under directory</h2>
+  <h2>Add Cover to all mp3 under directory</h2>
 
   <form id="add-cover-form">
 

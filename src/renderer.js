@@ -1,11 +1,18 @@
-document.getElementById('download-form').addEventListener('submit', async (event) => {
+document.getElementById("download-form").addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const url = document.getElementById('url-input').value;
-  const outputPath = document.getElementById('directory-input').value;
-  const isPlaylist = document.getElementById('is-playlist').checked;
+  const url = document.getElementById("url-input").value;
+  const outputPath = document.getElementById("directory-input").value;
+  const downloadButton = document.getElementById("download-btn");
   const logContainer = document.getElementById('logs-container');
   const logs = document.getElementById('logs');
+
+  const toggleButton = (isDisabled) => {
+    downloadButton.disabled = isDisabled;
+    downloadButton.innerText = isDisabled ? "" : "Download";
+    downloadButton.classList.toggle("button-downloading");
+  }
+  toggleButton(true);
 
   if (!outputPath) {
     alert("Please select a save directory.");
@@ -13,19 +20,25 @@ document.getElementById('download-form').addEventListener('submit', async (event
   }
 
   try {
-    const message = await window.electronAPI.downloadVideo({ url, isPlaylist, outputPath });
+    const message = await window.electronAPI.downloadVideo({ url, outputPath });
     alert(message);
   } catch (error) {
     alert(error);
   }
+  toggleButton(false);
   logContainer.style.display = 'none';
   logs.innerText = '';
 });
 
-document.getElementById('select-directory-button').addEventListener('click', async () => {
+document.getElementById("paste-url-button").addEventListener("click", async () => {
+  const url = await window.electronAPI.pasteFromClipboard();
+  document.getElementById("url-input").value = url;
+});
+
+document.getElementById("select-directory-button").addEventListener("click", async () => {
   const directory = await window.electronAPI.selectDirectory();
   if (directory) {
-    document.getElementById('directory-input').value = directory[0];
+    document.getElementById("directory-input").value = directory[0];
   }
 });
 
@@ -38,9 +51,9 @@ document.getElementById("select-directory-button-cover").addEventListener("click
 });
 
 // フォーム送信イベント
-document.getElementById('add-cover-form').addEventListener('submit', async (event) => {
+document.getElementById("add-cover-form").addEventListener("submit", async (event) => {
   event.preventDefault();
-  const directoryInput = document.getElementById('directory-input-cover').value;
+  const directoryInput = document.getElementById("directory-input-cover").value;
 
   try {
     const message = await window.electronAPI.addCover(directoryInput);
