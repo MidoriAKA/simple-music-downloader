@@ -4,8 +4,8 @@ document.getElementById("download-form").addEventListener("submit", async (event
   const url = document.getElementById("url-input").value;
   const outputPath = document.getElementById("directory-input").value;
   const downloadButton = document.getElementById("download-btn");
-  const logContainer = document.getElementById('logs-container');
-  const logs = document.getElementById('logs');
+  const logContainer = document.getElementById("logs-container");
+  const logs = document.getElementById("logs");
 
   const toggleButton = (isDisabled) => {
     downloadButton.disabled = isDisabled;
@@ -26,8 +26,8 @@ document.getElementById("download-form").addEventListener("submit", async (event
     alert(error);
   }
   toggleButton(false);
-  logContainer.style.display = 'none';
-  logs.innerText = '';
+  logContainer.style.display = "none";
+  logs.innerText = "";
 });
 
 document.getElementById("paste-url-button").addEventListener("click", async () => {
@@ -65,11 +65,11 @@ document.getElementById("add-cover-form").addEventListener("submit", async (even
 
 
 window.electronAPI.onReceiveLog((data) => {
-  const logContainer = document.getElementById('logs-container');
-  const foreground = document.getElementById('foreground');
-  logContainer.style.display = 'block';
-  const logs = document.getElementById('logs');
-  const newLog = data + '\n';
+  const logContainer = document.getElementById("logs-container");
+  const foreground = document.getElementById("foreground");
+  logContainer.style.display = "flex";
+  const logs = document.getElementById("logs");
+  const newLog = data + "\n";
   logs.appendChild(document.createTextNode(newLog));
   foreground.scrollTop = foreground.scrollHeight;
 });

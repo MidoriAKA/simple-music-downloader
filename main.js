@@ -40,7 +40,7 @@ ipcMain.handle("download-video", async (event, { url, outputPath }) => {
   const downloadCommand = [
     [`"${ytDlpPath}"`],
     ["--verbose"],
-    [_isPlaylist],
+    [isPlaylist],
     [`--output "${outputPath}/%(artist)s - %(title)s.%(ext)s"`],
     ["--windows-filenames"],
     ["--abort-on-unavailable-fragment"],
@@ -114,11 +114,11 @@ const setCover = async (directoryPath) => {
           if (tagError) {
             toast.error("Oops!", "Error updating tags :(", 3000);
           } else {
-            console.log(`Cover art added to ${artist} - ${title}`);
+            toast.success("Done!", `Cover art added to ${artist} - ${title}`, 500);
           }
         });
       } catch (artError) {
-        console.error(`Cover art not found for ${artist} - ${title}: ${artError}`);
+        toast.error("Oops!", `Cover art not found for ${artist} - ${title}`, 500);
       }
     });
   } catch (error) {

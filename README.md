@@ -15,7 +15,7 @@ To get a local copy up and running follow these simple steps
 - [FFmpeg](https://www.ffmpeg.org/download.html#build-windows)
 - [Python]() for yt-dlp
 
-> &nbsp;[!TIP]
+> [!TIP]
 > It is recommended to install using the package installer
 > Ex: Chocolatey, winget
 >
@@ -24,8 +24,6 @@ To get a local copy up and running follow these simple steps
 > ```bash
 > winget install ffmpeg
 > ```
->
-> &nbsp;
 
 ### Installation
 
