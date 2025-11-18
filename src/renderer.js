@@ -1,6 +1,7 @@
 document.getElementById("download-form").addEventListener("submit", async (event) => {
   event.preventDefault();
 
+  const body = document.querySelector("body");
   const url = document.getElementById("url-input").value;
   const outputPath = document.getElementById("directory-input").value;
   const downloadButton = document.getElementById("download-btn");
@@ -13,6 +14,7 @@ document.getElementById("download-form").addEventListener("submit", async (event
     downloadButton.classList.toggle("button-downloading");
   }
   toggleButton(true);
+  body.classList.toggle("noScroll");
 
   if (!outputPath) {
     alert("Please select a save directory.");
@@ -26,7 +28,8 @@ document.getElementById("download-form").addEventListener("submit", async (event
     alert(error);
   }
   toggleButton(false);
-  logContainer.style.display = "none";
+  body.classList.toggle("noScroll");
+  // logContainer.style.display = "none";
   logs.innerText = "";
 });
 

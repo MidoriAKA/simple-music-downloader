@@ -36,8 +36,8 @@ ipcMain.handle("paste-from-clipboard", async () => {
 
 ipcMain.handle("download-video", async (event, { url, outputPath }) => {
   const ytDlpPath = path.join(__dirname, "bin", "yt-dlp.exe");
-  const isPlaylist = url.includes("playlist") ? "yes-playlist" : ""; 
-  const downloadCommand = [
+  const isPlaylist = url.includes("playlist") ? "--yes-playlist" : ""; 
+  const downloadCommandOLD = [
     [`"${ytDlpPath}"`],
     ["--verbose"],
     [isPlaylist],
@@ -51,6 +51,18 @@ ipcMain.handle("download-video", async (event, { url, outputPath }) => {
     ["--embed-metadata"],
     [`"${url}"`]
   ].join(" ");
+
+  const downloadCommand = [
+    [`"${ytDlpPath}"`],
+    [isPlaylist],
+    ["--extractor-args youtube:player_client=tvhtml5"],
+    ["--format bestaudio"],
+    ["--audio-format mp3"],
+    ["--embed-metadata"],
+    ["--windows-filenames"],
+    [`--output "${outputPath}/%(artist)s - %(title)s.%(ext)s"`],
+    [`"${url}"`]
+  ]
 
   return new Promise((resolve, reject) => {
     const process = spawn(downloadCommand, {

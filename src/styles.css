@@ -121,9 +121,10 @@ button:disabled {
   display: none;
   background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
-  height: 100%;
+  height: 100vh;
   max-height: max-content;
-  width: 100%;
+  width: 100vw;
+  overflow: hidden;
 }
 
 #foreground {
@@ -140,4 +141,8 @@ button:disabled {
 
 #logs {
   border: 1px solid #333;
+}
+
+.noScroll {
+  overflow: hidden;
 }
