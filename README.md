@@ -1,50 +1,36 @@
-# Simple YouTube music downloader
+# MUDO 🤫
 
-Just a simple downloader to download music from Youtube or Youtube Music links.
+[![License: CC0-1.0](https://img.shields.io/badge/License-CC0--1.0-lightgrey.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 
-It was created in 3 hours because I needed to get the music in a hurry for a night DJ session.
-Therefore, there may be inefficient codes and some rough edges.
+[🇯🇵 日本語](README_JP.md) | [🇧🇷 Português](README_PT.md)
 
-## Getting Started
+A simple, fast, and robust YouTube Music downloader application. This tool runs as a local web server wrapped in a lightweight executable, providing a seamless browser-based interface.
 
-To get a local copy up and running follow these simple steps
+> [!WARNING]
+> **Disclaimer: Use at your own risk.** This tool is for educational and personal use only. The author is not responsible for any misuse, copyright infringement, or legal issues arising from the use of this software.
 
-### Prerequisites
+## Features
 
-- [Node.js](https://nodejs.org/en/)
-- [FFmpeg](https://www.ffmpeg.org/download.html#build-windows)
-- [Python]() for yt-dlp
+- **High-Quality Downloads**: Supports 320kbps MP3 or lossless WAV formats.
+- **Smart Metadata**: Automatically embeds Artist, Title, and ID3 tags into MP3 files.
+- **Enhanced Cover Art**: Fetches high-resolution jackets using the **iTunes Search API**.
+- **Auto-Cleanup**: Automatically removes temporary files after conversion.
+- **Efficient Organization**: Automatically creates folders for playlists and names files as `Artist - Title`.
+- **In-App Management**: Manage and open your download folders directly from the interface.
 
-> [!TIP]
-> It is recommended to install using the package installer
-> Ex: Chocolatey, winget
->
-> FFmpeg installation command example:
->
-> ```bash
-> winget install ffmpeg
-> ```
+## Quick Start
 
-### Installation
+1. Download and run `MUDO.exe`.
+2. The interface will automatically open in your default web browser.
+3. Paste a **YouTube or YouTube Music Playlist URL**.
+4. Select your preferred format and optional subfolder.
+5. Click **Start Download**.
 
-Clone this repository, and then execute the following commands in the terminal.
-Or download it as a zip, unzip it, and execute the following commands in a terminal.
+## Requirements
 
-```bash
-npm i
-```
-
-> [!NOTE]
-> If you're wondering what I'm talking about clone or whatever, please follow these steps.
-> Just download the file as a Zip, unzip it, and run the same command as above.
-> ![download as a zip](https://github.com/user-attachments/assets/c206a647-10f7-459f-886b-1fe324ff15d8)
-
-### Run
-
-```bash
-npm start
-```
+- Windows 10/11 (x64)
+- No external dependencies required (FFmpeg and yt-dlp are bundled).
 
 ## License
 
-[CC0 1.0 (Public Domain)](LICENSE.md)
+This project is licensed under the [CC0 1.0 Universal](LICENSE.md) license.

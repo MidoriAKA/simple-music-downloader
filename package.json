@@ -1,30 +1,38 @@
 {
-  "name": "electron-quick-start",
+  "name": "simple-music-downloader",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
-  "main": "main.js",
+  "description": "Simple YouTube music downloader web app",
+  "main": "server.js",
   "scripts": {
-    "start": "electron ."
+    "start": "node server.js",
+    "build": "pkg-exe-build -e server.js -o MUDO.exe -i bin/icon.ico -t node18-win-x64"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "bin": "server.js",
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "youtube",
+    "downloader",
+    "mp3",
+    "web"
   ],
-  "type": "module",
-  "author": "GitHub",
+  "author": "Midori",
   "license": "CC0-1.0",
   "dependencies": {
-    "album-art": "^4.0.0",
-    "electron-simple-toast": "^0.5.3",
+    "express": "^4.18.2",
     "ffmpeg-static": "^4.4.0",
-    "node-fetch": "^3.3.2",
-    "node-id3": "^0.2.2"
+    "node-id3": "^0.2.2",
+    "open": "^8.4.2"
   },
   "devDependencies": {
-    "electron": "^33.0.2"
+    "pkg": "^5.8.1",
+    "pkg-exe-build": "^1.1.1"
+  },
+  "pkg": {
+    "assets": [
+      "src/**/*",
+      "node_modules/ffmpeg-static/ffmpeg.exe"
+    ],
+    "targets": [
+      "node18-win-x64"
+    ]
   }
 }

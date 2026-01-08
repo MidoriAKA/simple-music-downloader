@@ -1,1 +1,25 @@
-node_modules
+# Dependencies
+node_modules/
+
+# Build artifacts (pkg)
+MUDO.exe
+
+# Runtime generated folders
+downloads/
+logs/
+
+# Binaries
+bin/*.exe
+!bin/icon.ico
+
+# Environment variables
+.env
+
+# Editor / System files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.log
+tmp/

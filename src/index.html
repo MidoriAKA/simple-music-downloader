@@ -1,43 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Downloader as mp3</title>
-  <link rel="stylesheet" href="./styles.css">
+  <title>MUDO 🤫</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <h1>Download Video as mp3</h1>
+  <div class="app-container">
+    <header>
+      <h1 data-i18n="title">MUDO 🤫</h1>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <select id="language-select" class="btn btn-secondary"
+          style="padding: 4px 8px; font-size: 0.7rem; width: auto;">
+          <option value="en">EN</option>
+          <option value="ja">JP</option>
+          <option value="pt">PT</option>
+        </select>
+        <button id="theme-toggle" class="btn-icon" title="Toggle Theme">
+          ☀
+        </button>
+      </div>
+    </header>
 
-  <form id="download-form">
-    <label for="url-input">YouTube URL</label>
-    <button type="button" id="paste-url-button">Paste URL</button>
-    <input type="text" id="url-input" placeholder="https://youtu.be, https://music.youtube.com" required>
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="tab-downloader" data-i18n="downloader">Downloader</button>
+      <button class="tab-btn" data-tab="tab-library" data-i18n="library">Library</button>
+      <button class="tab-btn" data-tab="tab-history" data-i18n="history">History</button>
+    </div>
 
-    <label for="directory-input">Save Directory</label>
-    <button type="button" id="select-directory-button">Select Directory</button>
-    <input type="text" id="directory-input" readonly>
+    <!-- TAB 1: DOWNLOADER -->
+    <div id="tab-downloader" class="tab-content active">
+      <!-- Control Panel -->
+      <section class="panel">
+        <form id="download-form">
+          <!-- URL Input -->
+          <div class="input-group">
+            <label for="url-input" data-i18n="urlLabel">YouTube URL / Playlist</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="url-input" placeholder="https://www.youtube.com/watch?v=..."
+                data-i18n-placeholder="urlPlaceholder" required autofocus>
+              <button type="button" id="paste-url-button" class="btn btn-secondary" data-i18n="paste">Paste</button>
+            </div>
+          </div>
 
-    <button id="download-btn" type="submit">Download</button>
-  </form>
+          <!-- Settings Grid -->
+          <div class="settings-grid">
+            <div class="input-group" style="margin-bottom:0;">
+              <label for="subfolder-input" data-i18n="subfolderLabel">Subfolder</label>
+              <input type="text" id="subfolder-input" placeholder="Auto if empty"
+                data-i18n-placeholder="subfolderPlaceholder">
+              <div id="subfolder-error" class="error-msg"></div>
+            </div>
+            <div class="input-group" style="margin-bottom:0;">
+              <label for="format-select" data-i18n="formatLabel">Format</label>
+              <select id="format-select">
+                <option value="mp3" selected>MP3</option>
+                <option value="wav">WAV</option>
+              </select>
+            </div>
+            <div class="input-group" style="margin-bottom:0;">
+              <label for="bitrate-select" data-i18n="bitrateLabel">Bitrate</label>
+              <select id="bitrate-select">
+                <option value="320K" selected>320k (Max)</option>
+                <option value="192K">192k</option>
+                <option value="128K">128k</option>
+              </select>
+            </div>
 
-  <h2>Add Cover to all mp3 under directory</h2>
+            <div class="input-group" style="margin-bottom:0;">
+              <label for="path-type-select" data-i18n="savePathLabel">Save Path</label>
+              <select id="path-type-select">
+                <option value="midori" selected data-i18n="pathMidori">Midori Folder (Documents)</option>
+                <option value="downloads" data-i18n="pathDownloads">Downloads Folder</option>
+                <option value="exe" data-i18n="pathCurrent">Current App Directory</option>
+              </select>
+            </div>
+          </div>
 
-  <form id="add-cover-form">
+          <div style="margin-top: 8px; margin-bottom: 20px; font-size: 0.75rem; color: var(--text-secondary);">
+            <span data-i18n="nextDownloadPath">Next Download Path</span>:
+            <code><span id="current-subfolder"></span></code>
+          </div>
 
-    <button type="button" id="select-directory-button-cover">Select Directory</button>
-    <input type="text" id="directory-input-cover" readonly required>
+          <button type="submit" id="download-btn" class="btn btn-primary" data-i18n="startDownload">Start
+            Download</button>
 
-    <button type="submit">Add Cover</button>
-  </form>
+          <!-- Progress Section -->
+          <div class="progress-section" style="opacity: 0; transition: opacity 0.3s;" id="progress-wrapper">
+            <div class="progress-group" id="total-progress-group" style="display:none;">
+              <div class="progress-label">
+                <span data-i18n="playlistProgress">Playlist Progress</span>
+                <span id="total-progress-text">1 of 1</span>
+              </div>
+              <div class="progress-container">
+                <div class="progress-bar" id="total-progress-bar"></div>
+              </div>
+            </div>
 
-  <div id="logs-container">
-    <div id="foreground">
-      <h2>Logs</h2>
-      <pre id="logs"></pre>
+            <div class="progress-group">
+              <div class="progress-label">
+                <span data-i18n="currentSong">Current Song</span>
+                <span id="current-progress-text">0%</span>
+              </div>
+              <div class="progress-container">
+                <div class="progress-bar" id="current-progress-bar"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- Logs -->
+      <section class="logs-section">
+        <div class="logs-header">
+          <span data-i18n="liveOutput">Live Output</span>
+        </div>
+        <div id="foreground" class="terminal-window">
+          <div id="logs"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- TAB 2: LIBRARY -->
+    <div id="tab-library" class="tab-content">
+      <div style="margin-bottom: 10px; display:flex; justify-content:space-between; align-items:center;">
+        <p style="font-size:0.8rem; color:var(--text-secondary);" data-i18n="foldersInDownloads">Folders in ./downloads
+        </p>
+        <button id="refresh-lib-btn" class="btn btn-secondary" style="font-size:0.7rem;"
+          data-i18n="refresh">Refresh</button>
+      </div>
+      <div class="scroll-list" id="library-list">
+        <!-- Dynamic Content -->
+        <div style="text-align:center; padding:20px; color:#555;">Loading...</div>
+      </div>
+    </div>
+
+    <!-- TAB 3: HISTORY -->
+    <div id="tab-history" class="tab-content">
+      <div style="margin-bottom: 10px;">
+        <p style="font-size:0.8rem; color:var(--text-secondary);" data-i18n="historyTitle">Session Download History</p>
+      </div>
+      <div class="scroll-list" id="history-list">
+        <!-- Dynamic Content -->
+        <div style="text-align:center; padding:20px; color:#555;">No downloads this session.</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="status-bar">
+      <div class="status-indicator">
+        <span id="ytdlp-status-dot" class="status-dot"></span>
+        <span id="ytdlp-status">Init...</span>
+      </div>
+      <button id="update-ytdlp-btn" class="btn btn-secondary" style="font-size:0.7rem;" data-i18n="checkUpdates">Check
+        Updates</button>
     </div>
   </div>
 
+  <!-- Tutorial Modal -->
+  <div id="tutorial-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+      <h2 id="tutorial-title" data-i18n="tutorialTitle">Welcome to MUDO! 🤫</h2>
+      <div class="modal-body">
+        <div id="tutorial-step-1" class="tutorial-step">
+          <p data-i18n="tutorialStep1">It looks like yt-dlp is not installed yet. This tool is required for downloading
+            music.</p>
+          <button id="tutorial-install-btn" class="btn btn-primary" style="margin-top: 20px;"
+            data-i18n="tutorialInstallBtn">Install yt-dlp Now</button>
+        </div>
+        <div id="tutorial-step-2" class="tutorial-step" style="display:none;">
+          <p data-i18n="tutorialStep2">Simply paste a YouTube URL, choose your format, and hit 'Start Download'.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="tutorial-next-btn" class="btn btn-primary" data-i18n="tutorialNext">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="i18n.js"></script>
   <script src="renderer.js"></script>
 </body>
+
 </html>
