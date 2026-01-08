@@ -18,7 +18,7 @@ Um baixador de músicas do YouTube Music simples, rápido e robusto. Funciona co
 
 ## Início Rápido
 
-1. Baixe e execute o `MUDO.exe`.
+1. [Baixe](https://github.com/MidoriAKA/simple-music-downloader/releases/latest) e execute o `MUDO.exe`.
 2. A interface abrirá automaticamente no seu navegador padrão.
 3. Cole uma **URL de Playlist do YouTube ou YouTube Music**.
 4. Selecione seu formato preferido e subpasta opcional.

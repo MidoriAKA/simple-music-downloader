@@ -20,7 +20,7 @@ A simple, fast, and robust YouTube Music downloader application. This tool runs 
 
 ## Quick Start
 
-1. Download and run `MUDO.exe`.
+1. [Download](https://github.com/MidoriAKA/simple-music-downloader/releases/latest) and run `MUDO.exe`.
 2. The interface will automatically open in your default web browser.
 3. Paste a **YouTube or YouTube Music Playlist URL**.
 4. Select your preferred format and optional subfolder.

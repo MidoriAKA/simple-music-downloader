@@ -18,7 +18,7 @@
 
 ## 使い方
 
-1. `MUDO.exe` を実行します。
+1. [最新リリース](https://github.com/MidoriAKA/simple-music-downloader/releases/latest)から `MUDO.exe` をダウンロードして実行します。
 2. 既定のブラウザで操作画面が自動的に開きます。
 3. **YouTube または YouTube Music のプレイリスト URL** を貼り付けます。
 4. フォーマット（MP3/WAV）や保存先サブフォルダ（任意）を選択します。
