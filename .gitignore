@@ -10,7 +10,6 @@ logs/
 
 # Binaries
 bin/*.exe
-!bin/icon.ico
 
 # Environment variables
 .env

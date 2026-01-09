@@ -2,7 +2,7 @@
 
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0--1.0-lightgrey.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 
-Um baixador de músicas do YouTube Music simples, rápido e robusto. Funciona como um servidor web local empacotado em um executável leve, proporcionando uma interface baseada em navegador.
+Um Downloader de músicas do YouTube Music simples, rápido e robusto. Funciona como um servidor web local empacotado em um executável leve, proporcionando uma interface baseada em navegador.
 
 > [!WARNING]
 > **Aviso: Use por sua conta e risco.** Esta ferramenta é apenas para fins educacionais e uso pessoal. O autor não se responsabiliza por qualquer uso indevido, violação de direitos autorais ou problemas legais decorrentes do uso deste software.

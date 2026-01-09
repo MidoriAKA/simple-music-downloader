@@ -5,9 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "pkg-exe-build -e server.js -o MUDO.exe -i bin/icon.ico -t node18-win-x64"
+    "build": "npx pkg . -o MUDO.exe"
   },
-  "bin": "server.js",
   "keywords": [
     "youtube",
     "downloader",
@@ -23,9 +22,9 @@
     "open": "^8.4.2"
   },
   "devDependencies": {
-    "pkg": "^5.8.1",
-    "pkg-exe-build": "^1.1.1"
+    "pkg": "^5.8.1"
   },
+  "bin": "server.js",
   "pkg": {
     "assets": [
       "src/**/*",
