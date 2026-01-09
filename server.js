@@ -100,6 +100,22 @@ console.log("\n");
 console.log("-----------------------------------------");
 
 // -------------------------------------------------------------
+// Platform Detection
+// -------------------------------------------------------------
+function detectPlatform(url) {
+  if (url.includes('youtube.com') || url.includes('youtu.be') || url.includes('music.youtube.com')) {
+    return 'youtube';
+  }
+  if (url.includes('soundcloud.com')) {
+    return 'soundcloud';
+  }
+  if (url.includes('spotify.com')) {
+    return 'spotify';
+  }
+  return 'unknown';
+}
+
+// -------------------------------------------------------------
 // FFmpeg Deployment Logic
 // -------------------------------------------------------------
 function setupFFmpeg() {
@@ -360,6 +376,10 @@ app.get('/api/download', async (req, res) => {
 
   if (!url) return res.status(400).send("URL required");
 
+  // Detect platform
+  const platform = detectPlatform(url);
+  console.log(`Detected platform: ${platform}`);
+
   // Determine Output Path
   let outputTemplate = '%(title)s.%(ext)s';
   const rootPath = getRootDownloadPath(pathType || 'midori');
@@ -369,8 +389,14 @@ app.get('/api/download', async (req, res) => {
     const safeDir = subFolder.replace(/[<>:"/\\|?*]/g, "_");
     cwd = path.join(rootPath, safeDir);
     if (!fs.existsSync(cwd)) fs.mkdirSync(cwd, { recursive: true });
-    // Use "Artist - Title" (fallback to uploader if artist missing) to avoid syntax errors
-    outputTemplate = '%(artist,uploader)s - %(title)s.%(ext)s';
+
+    // Platform-specific output templates
+    if (platform === 'soundcloud') {
+      outputTemplate = '%(uploader)s - %(title)s.%(ext)s';
+    } else {
+      // Use "Artist - Title" (fallback to uploader if artist missing)
+      outputTemplate = '%(artist,uploader)s - %(title)s.%(ext)s';
+    }
   } else {
     // Same logic for playlist/root
     outputTemplate = '%(playlist_title|.)s/%(artist,uploader)s - %(title)s.%(ext)s';
