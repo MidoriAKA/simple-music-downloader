@@ -4,6 +4,9 @@ node_modules/
 # Build artifacts (pkg)
 MUDO.exe
 
+# Implementation specs (work in progress)
+IMPLEMENTATION_SPEC.md
+
 # Runtime generated folders
 downloads/
 logs/
